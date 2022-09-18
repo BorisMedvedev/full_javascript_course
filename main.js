@@ -63,7 +63,3 @@ const blackList = [
 	"invalidvalid3@email.com",
 	"invalidvalid4@email.com",
 ];
-
-const all = [...validEmail, ...validEmail];
-
-console.log(all);
