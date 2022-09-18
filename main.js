@@ -49,15 +49,10 @@
 
 // console.log(resault);
 
-const allEmails = [
+const validEmail = [
 	"valid@email.com",
 	"valid1@email.com",
 	"valid2@email.com",
-	"invalidvalid@email.com",
-	"invalidvalid1@email.com",
-	"invalidvalid2@email.com",
-	"invalidvalid3@email.com",
-	"invalidvalid4@email.com",
 	"valid3@email.com",
 	"valid4@email.com",
 ];
@@ -68,14 +63,7 @@ const blackList = [
 	"invalidvalid3@email.com",
 	"invalidvalid4@email.com",
 ];
-let validAll = [];
-function generateValid(allE, black) {
-	for (let indexAll in allE) {
-		if (!black.includes(allE[indexAll])) {
-			validAll.push(allE[indexAll]);
-		}
-	}
-	return validAll;
-}
-let validEmails = generateValid(allEmails, blackList);
-console.log(validEmails);
+
+const all = [...validEmail, ...validEmail];
+
+console.log(all);
