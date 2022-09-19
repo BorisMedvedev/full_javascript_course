@@ -1,65 +1,100 @@
 "use strict";
-// const arryCards = ["2", "5", "6", "туз", "король", "король"];
+(function () {
+	//создаем и возвращаем заголовок================
+	function createAddTitle(title) {
+		let appTitle = document.createElement("h2");
+		appTitle.innerHTML = title;
+		appTitle.classList.add("title");
+		return appTitle;
+	}
 
-// function findCardIndex(cards, wantedCard) {
-// 	console.log(`мы ищем карту ${wantedCard}`);
+	//создаем и возвращаем форму для создания дел==============
+	function createTodoItemForm() {
+		let form = document.createElement("form");
+		let input = document.createElement("input");
+		let buttonWrapper = document.createElement("div");
+		let button = document.createElement("button");
 
-// 	for (let index in cards) {
-// 		let card = cards[index];
-// 		console.log(`вытянули карту ${card}`);
+		form.classList.add("input-group", "mb-3");
+		input.classList.add("form-control");
+		input.placeholder = "Введите новое дело";
+		buttonWrapper.classList.add("input-group-append");
+		button.classList.add("btn", "btn-primary");
+		button.textContent = "Добавить дело";
 
-// 		if (card === wantedCard) {
-// 			console.log(`мы нашли карту ${wantedCard}!`);
-// 			return index;
-// 		}
-// 	}
+		buttonWrapper.append(button);
+		form.append(input);
+		form.append(buttonWrapper);
 
-// 	console.log(`в колоде не карты ${wantedCard}!`);
-// 	return -1;
-// }
+		return {
+			form,
+			input,
+			button,
+		};
+	}
 
-// const aceIndex = findCardIndex(arryCards, "2");
-// console.log(aceIndex);
+	//создаем и возвращаем список - ul - элементов=============
+	function createTodoList() {
+		let list = document.createElement("ul");
+		list.classList.add("list-group");
+		return list;
+	}
 
-// function checkAge(age) {
-// 	console.log(`вам ${age} лет`);
-// 	if (age >= 18) return;
-// 	{
-// 		console.log("школота");
-// 		console.log(`потерпи еще ${18 - age} лет до совершеннолетия`);
-// 	}
-// }
-// checkAge(2);
-// checkAge(18);
-// checkAge(23);
+	//создаем и возвращаем item - li - =============
+	function createTodoItem(name) {
+		let item = document.createElement("li");
+		//помещаем кнопки в элемент в группу
+		let buttonGroup = document.createElement("div");
+		let doneButton = document.createElement("button");
+		let deleteButton = document.createElement("button");
 
-// function generateNumberRandom(n, m) {
-// 	let range = Math.abs(m - n);
-// 	let numberInRange = Math.round(Math.random() * range);
-// 	let min = Math.min(n, m);
+		//устанавливаем стили для элементов списка===============
+		item.classList.add(
+			"list-group-item",
+			"d-flex",
+			"justify-content-between",
+			"align-items-center",
+			"mb-3"
+		);
+		item.textContent = name;
+		//стили для кнопок==============
+		buttonGroup.classList.add("btn-group", "btn-group-sm");
+		doneButton.classList.add("btn", "btn-success");
+		doneButton.textContent = "Готово";
+		deleteButton.classList.add("btn", "btn-danger");
+		deleteButton.textContent = "Удалить";
+		//вкладываем кнопки в отдельный элемент объединяем ==============
+		buttonGroup.append(doneButton);
+		buttonGroup.append(deleteButton);
+		item.append(buttonGroup);
+		//возвращаем все, так как нужен доступ к элементам для событий
+		return {
+			item,
+			doneButton,
+			deleteButton,
+		};
+	}
 
-// 	console.log(range);
-// 	console.log(numberInRange);
-// 	console.log(min);
+	// добавлем все на страницу=================
+	document.addEventListener("DOMContentLoaded", function () {
+		let container = document.getElementById("todo-add");
+		let todoAddTitle = createAddTitle("Список дел");
+		let todoItemForm = createTodoItemForm();
+		let todoList = createTodoList();
 
-// 	return min + numberInRange;
-// }
+		container.append(todoAddTitle);
+		container.append(todoItemForm.form);
+		container.append(todoList);
 
-// const resault = generateNumberRandom(0, 20);
+		//===================================================================
+		todoItemForm.form.addEventListener("submit", function (el) {
+			el.preventDefault();
 
-// console.log(resault);
-
-const validEmail = [
-	"valid@email.com",
-	"valid1@email.com",
-	"valid2@email.com",
-	"valid3@email.com",
-	"valid4@email.com",
-];
-const blackList = [
-	"invalidvalid@email.com",
-	"invalidvalid1@email.com",
-	"invalidvalid2@email.com",
-	"invalidvalid3@email.com",
-	"invalidvalid4@email.com",
-];
+			if (!todoItemForm.input.value) {
+				return;
+			}
+			todoList.append(createTodoItem(todoItemForm.input.value).item);
+			todoItemForm.input.value = "";
+		});
+	});
+})();
